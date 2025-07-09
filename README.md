@@ -116,3 +116,36 @@ curl -X POST http://127.0.0.1:5000/predict \
      -H "Content-Type: application/json" \
      -d '{"content_id": "c_dd739e116435", "threshold": 0.85}'
 ```
+
+
+## 4. Future Work
+
+Given additional time, the following areas could be explored to further improve the performance, robustness, and scalability of the solution:
+
+### Deeper Data Exploration
+- Perform **language-specific analyses** to understand how language affects topic-content relationships.
+- Explore **hierarchical structures** in topics (e.g., using topic levels) to inform model design.
+- Visualize embedding spaces using techniques like **UMAP** or **t-SNE** to assess the separability of topic-content pairs.
+
+### Advanced Modeling
+- Replace the BLSTM with a **transformer-based model** (e.g., DistilBERT or RoBERTa) to generate richer embeddings.
+- Use **Siamese Networks** or **Dual Encoders** for direct similarity learning between content and topic embeddings.
+
+### Hyperparameter Tuning
+- Use **Optuna** to perform automated hyperparameter optimization for:
+  - LightGBM parameters (e.g., `num_leaves`, `max_depth`, `learning_rate`).
+  - BLSTM architecture (e.g., embedding dimensions, dropout rate, hidden units).
+- Apply **cross-validation** on topic-content pairs to better estimate generalization performance.
+
+### Model Evaluation
+- Introduce additional metrics like **Precision**, **Recall**, and **Mean Average Precision (MAP)** to better evaluate multilabel predictions.
+- Perform **error analysis** to identify systematic failure cases, such as confusion between similar topics.
+
+
+### Data Augmentation & External Resources
+- Use **data augmentation techniques** (e.g., back translation or synonym replacement) to expand the training data.
+- Leverage **external knowledge bases** to enrich topic metadata for better generalization.
+
+---
+
+These improvements could significantly boost both the accuracy and scalability of the solution in a real-world educational content recommendation setting.
