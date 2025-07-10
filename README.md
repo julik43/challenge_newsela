@@ -82,13 +82,25 @@ This is an **extreme multilabel classification** problem, where each content ite
 
 ### Results
 
-| Model                          | Metric              | Value     |
-|-------------------------------|---------------------|-----------|
-| **BLSTM (Language Classifier)** | Validation Accuracy | 95.47%    |
-|                               | Validation Loss     | 0.1746    |
-|                               | Training Curve      | ![BLSTM Training](images/blstm_training.png) |
-| **LightGBM (Pairwise Classifier)** | F1 Score           | 0.8577    |
-|                               | AUC                 | 0.9745    |
+The table below shows the performance of the two models used in this project: a **BLSTM-based language classifier** and a **LightGBM pairwise binary classifier**.
+
+| Model                            | Metric Type       | Precision | Recall | F1 Score | Accuracy |
+|----------------------------------|-------------------|-----------|--------|----------|----------|
+| **BLSTM (Language Classifier)**  | Macro Avg         | 0.87      | 0.77   | 0.81     | 0.95     |
+|                                  | Weighted Avg      | 0.97      | 0.95   | 0.96     |          |
+| **LightGBM (Pairwise Classifier)** | Macro Avg         | 0.90      | 0.91   | 0.90     | 0.92     |
+|                                  | Weighted Avg      | 0.92      | 0.92   | 0.92     |          |
+
+
+#### 📊 Interpretation
+
+- The **BLSTM model** achieves high overall performance, with a **weighted F1 score of 0.96** and **accuracy of 95%**, indicating that it classifies the language of text samples very effectively, especially for high-frequency classes.
+- However, its **macro-average recall and F1 score are lower (0.77 and 0.81, respectively)**, which suggests that performance across less frequent classes is weaker — a typical challenge in imbalanced multi-class problems.
+- The **LightGBM classifier** performs robustly in the binary topic-content matching task, achieving a **macro F1 score of 0.90** and **accuracy of 92%**, indicating balanced performance across classes even in a pairwise setup.
+
+The training dynamics of the BLSTM model can be visualized in the following plot, which shows how the model's loss decreased and accuracy improved during training:
+
+![BLSTM Training](images/blstm_training.png)
 
 ---
 
@@ -109,7 +121,13 @@ To serve the trained model, a deployment script was implemented using **Flask**.
 
 ### Example Usage
 
-Once the Flask server is running, you can call the prediction endpoint with the following command:
+To start the Flask server, run the following command **from the folder where the model and server script are located** (in this case, the `code/` folder):
+
+```bash
+python app.py
+```
+
+Once the Flask server is running (by default at http://127.0.0.1:5000), you can call the prediction endpoint with the following command:
 
 ```bash
 curl -X POST http://127.0.0.1:5000/predict \
